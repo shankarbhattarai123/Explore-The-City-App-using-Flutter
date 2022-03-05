@@ -36,6 +36,7 @@ dependencies:
   font_awesome_flutter: ^9.1.0
   google_fonts: ^1.1.2
   intl:
+  flutter_rating_bar:
  
 
 dev_dependencies:

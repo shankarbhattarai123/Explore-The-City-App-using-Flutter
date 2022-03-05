@@ -1,6 +1,7 @@
 import 'package:places_autocomplete/Intro_pages/loginscreen.dart';
 import 'package:places_autocomplete/buttomnavigate.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
 //import 'package:places_autocomplete/home_page.dart';
 
@@ -15,6 +16,7 @@ class _SignupState extends State<Signupscreen> {
   TextEditingController passwordTextController;
   TextEditingController cpasswordTextController;
   bool passwordVisibility;
+  bool cpasswordVisibility;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -26,25 +28,35 @@ class _SignupState extends State<Signupscreen> {
     passwordTextController = TextEditingController();
     cpasswordTextController = TextEditingController();
     passwordVisibility = false;
+    cpasswordVisibility = false;
+  }
+
+  Future adduser() async {
+    var url = "http://192.168.100.6/php/registration.php";
+    http.post(
+      Uri.parse(url),
+      headers: {"Accept": "application/json"},
+      body: {
+        "username": usernameTextController.text,
+        "email": emailTextController.text,
+        "password": passwordTextController.text,
+        "cpassword": cpasswordTextController.text,
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: const Color(0xFFF5F5F5),
+      backgroundColor: Colors.black87,
       body: SafeArea(
         child: Stack(
           children: [
             Align(
-              alignment: const AlignmentDirectional(0, -1),
-              child: Image.asset(
-                'assets/img11.jpg',
-                width: double.infinity,
-                height: 275,
-                fit: BoxFit.cover,
-              ),
-            ),
+                alignment: const AlignmentDirectional(0, -1),
+                child: Image.network(
+                    "https://images.unsplash.com/photo-1646437158075-6243c40349ee?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80")),
             Column(
               mainAxisSize: MainAxisSize.max,
               children: [
@@ -64,7 +76,11 @@ class _SignupState extends State<Signupscreen> {
                     height: 100,
                     decoration: BoxDecoration(
                       color: const Color(0xFFEEEEEE),
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(50),
+                          topRight: Radius.circular(50),
+                          bottomLeft: Radius.circular(50),
+                          bottomRight: Radius.circular(50)),
                     ),
                     child: SingleChildScrollView(
                       child: Column(
@@ -89,7 +105,7 @@ class _SignupState extends State<Signupscreen> {
                                         const EdgeInsetsDirectional.fromSTEB(
                                             20, 0, 20, 0),
                                     child: TextFormField(
-                                      controller: emailTextController,
+                                      controller: usernameTextController,
                                       obscureText: false,
                                       decoration: InputDecoration(
                                         hintText: 'Username',
@@ -192,8 +208,8 @@ class _SignupState extends State<Signupscreen> {
                                   padding: const EdgeInsetsDirectional.fromSTEB(
                                       20, 0, 20, 0),
                                   child: TextFormField(
-                                    controller: emailTextController,
-                                    obscureText: false,
+                                    controller: passwordTextController,
+                                    obscureText: !passwordVisibility,
                                     decoration: InputDecoration(
                                       hintText: 'Password',
                                       hintStyle: GoogleFonts.getFont(
@@ -257,8 +273,8 @@ class _SignupState extends State<Signupscreen> {
                                         const EdgeInsetsDirectional.fromSTEB(
                                             20, 0, 20, 0),
                                     child: TextFormField(
-                                      controller: passwordTextController,
-                                      obscureText: !passwordVisibility,
+                                      controller: cpasswordTextController,
+                                      obscureText: !cpasswordVisibility,
                                       decoration: InputDecoration(
                                         hintText: 'Confirm password',
                                         hintStyle: GoogleFonts.getFont(
@@ -290,11 +306,11 @@ class _SignupState extends State<Signupscreen> {
                                         ),
                                         suffixIcon: InkWell(
                                           onTap: () => setState(
-                                            () => passwordVisibility =
-                                                !passwordVisibility,
+                                            () => cpasswordVisibility =
+                                                !cpasswordVisibility,
                                           ),
                                           child: Icon(
-                                            passwordVisibility
+                                            cpasswordVisibility
                                                 ? Icons.visibility_outlined
                                                 : Icons.visibility_off_outlined,
                                             size: 22,
@@ -314,12 +330,10 @@ class _SignupState extends State<Signupscreen> {
                                 padding: const EdgeInsetsDirectional.fromSTEB(
                                     0, 0, 0, 20),
                                 child: TextButton(
-                                  onPressed: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              Bottomnavigate())),
-                                  child: const Text("Sign Up"),
+                                  onPressed: () {
+                                    adduser();
+                                  },
+                                  child: Text("Sign Up"),
                                 ),
                               ),
                             ],
@@ -343,29 +357,17 @@ class _SignupState extends State<Signupscreen> {
                                 ),
                               ),
                               GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Loginscreen()),
-                                  );
-                                },
-
+                                onTap: () {},
                                 child: TextButton(
-                                  onPressed: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Loginscreen())),
-                                  child: const Text("Sign In"),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                Loginscreen()));
+                                  },
+                                  child: Text("Sign In"),
                                 ),
-                                // child: Text(
-                                //   'Sign In',
-                                //   style: GoogleFonts.getFont(
-                                //     'Open Sans',
-                                //     color: Colors.black,
-                                //     fontSize: 16,
-                                //   ),
-                                // ),
                               )
                             ],
                           )

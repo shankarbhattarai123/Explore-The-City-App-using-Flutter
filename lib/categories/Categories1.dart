@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class CategoryWidget1 extends StatefulWidget {
   @override
@@ -8,6 +9,7 @@ class CategoryWidget1 extends StatefulWidget {
 }
 
 class _CategoryWidget1State extends State<CategoryWidget1> {
+  var _rating;
   List places = List();
   Future getdata() async {
     var url = 'http://192.168.100.6/php/readholyplaces.php';
@@ -278,7 +280,6 @@ class _DescriptionOfPlaceState extends State<DescriptionOfPlace> {
                       child: Text(
                         '${widget.time} / ${widget.distance}',
                         style: TextStyle(
-                          fontFamily: 'cursive',
                           color: Color(0xFF39D2C0),
                           fontSize: 14,
                           fontWeight: FontWeight.normal,
@@ -289,22 +290,77 @@ class _DescriptionOfPlaceState extends State<DescriptionOfPlace> {
                 ],
               ),
             ),
+            Row(
+              children: [
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(20, 1, 10, 0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 25, 10, 20),
+                        child: Text(
+                          "Average User Rating:",
+                          style: TextStyle(
+                            color: Color(0xFF39D2C0),
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(0, 25, 0, 20),
+                          child: RatingBar(
+                            ratingWidget: RatingWidget(
+                              full: Icon(
+                                Icons.star,
+                                color: Colors.orange,
+                              ),
+                              half: Icon(
+                                Icons.star,
+                                color: Colors.orange,
+                              ),
+                              empty: Icon(
+                                Icons.star_border,
+                                color: Colors.orange,
+                              ),
+                            ),
+                            initialRating: 3,
+                            minRating: 1,
+                            direction: Axis.horizontal,
+                            allowHalfRating: false,
+                            itemCount: 5,
+                            itemSize: 25,
+                            onRatingUpdate: (rating) {},
+                          ))
+                    ],
+                  ),
+                ),
+              ],
+            ),
             Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0, 25, 0, 24),
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.green),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-                              side: BorderSide(color: Colors.green)))),
-                  onPressed: () {
-                    Navigator.pop(context);
-                    print('Button pressed ...');
-                  },
-                  child: Text(
-                    'Lets Go',
+                child: Container(
+                  height: 50,
+                  width: 190,
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.green),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(22.0),
+                                    side: BorderSide(color: Colors.green)))),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      print('Button pressed ...');
+                    },
+                    child: Text(
+                      'Lets Go',
+                      style:
+                          TextStyle(fontSize: 19, fontWeight: FontWeight.w400),
+                    ),
                   ),
                 ))
           ],

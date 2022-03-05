@@ -1,6 +1,7 @@
 import 'package:places_autocomplete/Intro_pages/signup.dart';
 import 'package:places_autocomplete/buttomnavigate.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
 //import 'package:places_autocomplete/home_page.dart';
 
@@ -24,44 +25,47 @@ class _LoginscreenState extends State<Loginscreen> {
     passwordVisibility = false;
   }
 
+  Future adduser() async {
+    var url = "http://192.168.100.6/php/insert.php";
+    http.post(Uri.parse(url), headers: {
+      "Accept": "application/json"
+    }, body: {
+      "email": emailTextController.text,
+      "password": passwordTextController.text,
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: Colors.lightBlueAccent,
       key: scaffoldKey,
-      backgroundColor: const Color(0xFFF5F5F5),
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: Stack(
           children: [
             Align(
-              alignment: const AlignmentDirectional(0, -1),
-              child: Image.asset(
-                'assets/img9.jpg',
-                width: double.infinity,
-                height: 275,
-                fit: BoxFit.cover,
-              ),
-            ),
+                alignment: const AlignmentDirectional(0, -1),
+                child: Image.network(
+                    "https://images.unsplash.com/photo-1646383386709-66c5f323538b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=865&q=80")),
             Column(
               mainAxisSize: MainAxisSize.max,
               children: [
                 Expanded(
-                  child: Container(
-                    width: 100,
-                    height: 100,
-                    decoration: const BoxDecoration(
-                      color: Color(0x00EEEEEE),
-                    ),
-                  ),
+                  child: Container(),
                 ),
                 Expanded(
-                  flex: 2,
+                  flex: 3,
                   child: Container(
                     width: double.infinity,
                     height: 100,
                     decoration: BoxDecoration(
                       color: const Color(0xFFEEEEEE),
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(50),
+                          topRight: Radius.circular(50),
+                          bottomLeft: Radius.circular(50),
+                          bottomRight: Radius.circular(50)),
                     ),
                     child: SingleChildScrollView(
                       child: Column(
